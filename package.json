@@ -1,0 +1,18 @@
+{
+  "name": "VideokonferenzBingo",
+  "version": "1.0.0",
+  "description": "Videokonferenz Bingo Spiel",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eva Bauer & Armin Toepper",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^31.0.1"
+  },
+  "dependencies": {
+    "electron-store": "^10.0.0"
+  }
+}

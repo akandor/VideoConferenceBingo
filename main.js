@@ -44,123 +44,244 @@ function saveSettings(settings) {
   const translations = {
     en: {
       languageMenu: 'Language',
+      settings: 'Settings',
       english: 'English',
       german: 'German',
       soundMenu: 'Sounds',
       on: 'Sound On',
-      off: 'Sound Off'
+      off: 'Sound Off',
+      about: 'Info',
+      quit: 'Quit'
     },
     de: {
       languageMenu: 'Sprache',
+      settings: 'Einstellungen',
       english: 'Englisch',
       german: 'Deutsch',
-      soundMenu: 'Geräusche',
-      on: 'Geräusche An',
-      off: 'Geräusche Aus'
+      soundMenu: 'Sound',
+      on: 'Sound An',
+      off: 'Sound Aus',
+      about: 'Info',
+      quit: 'Beenden'
     },
   };
 
-  // Remove the menu
-  if (process.platform === 'darwin') {
-    const template = [
-      {
-        label: app.getName(),
-        submenu: [{ role: 'about' }, { type: 'separator' }, { role: 'hide' }, { role: 'hideothers' }, { role: 'unhide' }, { type: 'separator' }, { role: 'quit' }]
-      },
-      {
-        label: translations[savedLanguage].languageMenu,
-        submenu: [
-            {
-                label: translations[savedLanguage].german,
-                click() {
-                    win.webContents.send('language-changed', 'de');
-                    savedLanguage = 'de'
-                    saveSettings({ language: savedLanguage, sound: savedSound}); // Save the preference
-                }
-            },
-            {
-                label: translations[savedLanguage].english,
-                click() {
-                    win.webContents.send('language-changed', 'en');
-                    savedLanguage = 'en'
-                    saveSettings({ language: savedLanguage, sound: savedSound}); // Save the preference
-                }
-            }
-            // Add more languages as needed
-        ]
-    },
-    {
-      label: translations[savedLanguage].soundMenu,
-      submenu: [
-          {
-              label: translations[savedLanguage].on,
-              click() {
-                  win.webContents.send('sound-changed', 'on');
-                  savedSound = 'on'
-                  saveSettings({ language: savedLanguage, sound: savedSound }); // Save the preference
-              }
-          },
-          {
-              label: translations[savedLanguage].off,
-              click() {
-                  win.webContents.send('sound-changed', 'off');
-                  savedSound = 'off'
-                  saveSettings({ language: savedLanguage, sound: savedSound }); // Save the preference
-              }
-          }
-          // Add more languages as needed
-      ]
-  }
-    ];
+  let isGermanChecked = true;
+  let isEnglishChecked = false;
 
-    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+  let isSoundOn = true;
+  let isSoundOff = false;
+
+  if(savedLanguage === 'en') {
+    isGermanChecked = false;
+    isEnglishChecked = true;
   } else {
-    const template = [
-      {
-        label: translations[savedLanguage].languageMenu,
-        submenu: [
+    isGermanChecked = true;
+    isEnglishChecked = false;
+  }
+
+  if(savedSound === 'on') {
+    isSoundOn = true;
+    isSoundOff = false;
+  } else {
+    isSoundOn = false;
+    isSoundOff = true;
+  }
+
+  updateMenu();
+
+  function updateMenu() {
+    // Remove the menu
+    if (process.platform === 'darwin') {
+      const template = [
+        {
+          label: 'Bingo',
+          submenu: [
             {
-                label: translations[savedLanguage].german,
-                click() {
-                    win.webContents.send('language-changed', 'de');
-                    saveSettings({ language: 'de' }); // Save the preference
-                }
+              role: 'about'
             },
             {
-                label: translations[savedLanguage].english,
-                click() {
-                    win.webContents.send('language-changed', 'en');
-                    saveSettings({ language: 'en' }); // Save the preference
+              type: 'separator'
+            },
+            {
+              label: translations[savedLanguage].settings,
+              submenu: [
+                {
+                  label: translations[savedLanguage].languageMenu,
+                  submenu: [
+                    {
+                        label: translations[savedLanguage].german,
+                        type: 'checkbox',
+                        checked: isGermanChecked,
+                        click() {
+                            isGermanChecked = true;
+                            isEnglishChecked = false;
+                            win.webContents.send('language-changed', 'de');
+                            savedLanguage = 'de'
+                            saveSettings({ language: savedLanguage, sound: savedSound}); // Save the preference
+                            updateMenu();
+                        }
+                    },
+                    {
+                        label: translations[savedLanguage].english,
+                        type: 'checkbox',
+                        checked: isEnglishChecked,
+                        click() {
+                            isGermanChecked = false;
+                            isEnglishChecked = true;
+                            win.webContents.send('language-changed', 'en');
+                            savedLanguage = 'en'
+                            saveSettings({ language: savedLanguage, sound: savedSound}); // Save the preference
+                            updateMenu();
+                        }
+                    }
+                  ]
+                },
+                {
+                  label: translations[savedLanguage].soundMenu,
+                  submenu: [
+                    {
+                      label: translations[savedLanguage].on,
+                      type: 'checkbox',
+                        checked: isSoundOn,
+                      click() {
+                          isSoundOn = true;
+                          isSoundOff = false;
+                          win.webContents.send('sound-changed', 'on');
+                          savedSound = 'on'
+                          saveSettings({ language: savedLanguage, sound: savedSound }); // Save the preference
+                          updateMenu();
+                      }
+                    },
+                    {
+                      label: translations[savedLanguage].off,
+                      type: 'checkbox',
+                      checked: isSoundOff,
+                      click() {
+                        isSoundOn = false;
+                        isSoundOff = true;
+                          win.webContents.send('sound-changed', 'off');
+                          savedSound = 'off'
+                          saveSettings({ language: savedLanguage, sound: savedSound }); // Save the preference
+                          updateMenu();
+                      }
+                    }
+                  ]
                 }
-            }
-            // Add more languages as needed
-        ]
-    },
-    {
-      label: translations[savedLanguage].soundMenu,
-      submenu: [
-          {
-              label: translations[savedLanguage].on,
-              click() {
-                  win.webContents.send('sound-changed', 'on');
-                  savedSound = 'on'
-                  saveSettings({ language: savedLanguage, sound: savedSound }); // Save the preference
-              }
+              ]
           },
           {
-              label: translations[savedLanguage].off,
-              click() {
-                  win.webContents.send('sound-changed', 'off');
-                  savedSound = 'off'
-                  saveSettings({ language: savedLanguage, sound: savedSound }); // Save the preference
-              }
-          }
-          // Add more languages as needed
-      ]
-  }
-    ];
+            type: 'separator'
+          },
+            {
+              role: 'hide'
+            },
+            {
+              role: 'hideothers'
+            },
+            {
+              role: 'unhide'
+            },
+            {
+              type: 'separator'
+            },
+            {
+              label: translations[savedLanguage].quit,
+              role: 'quit'
+            }]
+        }
+      ];
 
-    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+      Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+    } else {
+      const template = [
+        {
+          label: 'Bingo',
+          submenu: [
+            {
+              label: translations[savedLanguage].about,
+              role: 'about'
+            },
+            {
+              type: 'separator'
+            },
+            {
+              label: translations[savedLanguage].quit,
+              role: 'quit'
+            }
+          ]
+        },
+        {
+          label: translations[savedLanguage].settings,
+          submenu: [
+            {
+              label: translations[savedLanguage].languageMenu,
+              submenu: [
+                {
+                    label: translations[savedLanguage].german,
+                    type: 'checkbox',
+                    checked: isGermanChecked,
+                    click() {
+                        isGermanChecked = true;
+                        isEnglishChecked = false;
+                        win.webContents.send('language-changed', 'de');
+                        savedLanguage = 'de'
+                        saveSettings({ language: savedLanguage, sound: savedSound}); // Save the preference
+                        updateMenu();
+                    }
+                },
+                {
+                    label: translations[savedLanguage].english,
+                    type: 'checkbox',
+                    checked: isEnglishChecked,
+                    click() {
+                        isGermanChecked = false;
+                        isEnglishChecked = true;
+                        win.webContents.send('language-changed', 'en');
+                        savedLanguage = 'en'
+                        saveSettings({ language: savedLanguage, sound: savedSound}); // Save the preference
+                        updateMenu();
+                    }
+                }
+              ]
+            },
+            {
+              label: translations[savedLanguage].soundMenu,
+              submenu: [
+                {
+                  label: translations[savedLanguage].on,
+                  type: 'checkbox',
+                    checked: isSoundOn,
+                  click() {
+                      isSoundOn = true;
+                      isSoundOff = false;
+                      win.webContents.send('sound-changed', 'on');
+                      savedSound = 'on'
+                      saveSettings({ language: savedLanguage, sound: savedSound }); // Save the preference
+                      updateMenu();
+                  }
+                },
+                {
+                  label: translations[savedLanguage].off,
+                  type: 'checkbox',
+                  checked: isSoundOff,
+                  click() {
+                    isSoundOn = false;
+                    isSoundOff = true;
+                      win.webContents.send('sound-changed', 'off');
+                      savedSound = 'off'
+                      saveSettings({ language: savedLanguage, sound: savedSound }); // Save the preference
+                      updateMenu();
+                  }
+                }
+              ]
+            }
+          ]
+      }
+      ];
+
+      Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+    }
   }
 }
 

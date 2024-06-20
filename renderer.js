@@ -58,254 +58,211 @@ document.addEventListener('DOMContentLoaded', () => {
         
     }
 
+
+
     window.electron.onLanguageChanged((event, language) => {
         updateLanguage(language);
     });
 
-    $yesBtn = "Ja"
-    $noBtn = "Nein"
-    $btnTitle = "Spiel nochmal"
-    $btnText = "Willst du noch einmal spielen?"
-    $message01 = "\"Ich glaube du bist stumm\""
-    $message02 = "Gastauftritt einer Katze"
-    $message03 = "\"Kannst du mich/uns hören\""
-    $message04 = "Jemand vergisst das die Kamera an ist"
-    $message05 = "1:1 Chat an die falsche Person"
-    $message06 = "\"Ich möchte meinen Bildschirm teilen\""
-    $message07 = "Keine Hose tragen"
-    $message08 = "Technische Probleme"
-    $message09 = "Seltsame Geräusche im Hintergrund"
-    $message10 = "Fragwürdige Browser Tabs offen ;)"
-    $message11 = "Jemand kommt zu spät"
-    $message12 = "Lustige Hintergründe"
-    $message13 = "Kinder stören"
-    $message14 = "Nicht alle haben die Kamera an"
-    $message15 = "Jeder kann den \"Lästerchat\" beim Bildschirm teilen lesen"
-    $message16 = "Falsches Mikrofon ausgewählt"
-    $message17 = "Jemand geht einfach"
-    $message18 = "Jemand läuft ins Bild"
-    $message19 = "Keine Reaktion obwohl er/sie angesprochen wird"
-    $message20 = "Schlechte Sprachqualität"
-    $message21 = "Jemand lästert und vergisst die Stummschaltung"
-    $message22 = "Keiner hat die Kamera an"
-    $message23 = "Gruppenchat statt 1:1 Chat"
-    $message24 = "Internet ist weg"
-    $message25 = "\"Könnt ihr meinen Bildschirm sehen?\""
-    $message26 = "Jemand isst"
-    $message27 = "Jemand trinkt"
-    $message28 = "Jemand spricht obwohl sie/er auf Mute ist"
-    $message29 = "Augenrollen"
-    $message30 = "Meeting wird überzogen"
-    $message31 = "Jemand nimmt aus dem Auto teil"
+    window.electron.onSoundChanged((event, soundBool) => {
+        $soundOnOff = soundBool
+    });
+
+    const translations = {
+        en: {
+          languageMenu: 'Language',
+          english: 'English',
+          german: 'German',
+          title: 'Videoconference<br>Bingo',
+          playAgainTitle: 'Play again',
+          playAgain: 'Do you want to play again?',
+          yes: 'Yes',
+          no: 'No',
+          message01: '\"I think, you are mute\"',
+          message02: 'Appearance of a cat',
+          message03: '\"Can you here me/us\"',
+          message04: 'Someone forgets that the camera is on',
+          message05: '1:1 Chat with the wrong person',
+          message06: '\"I want to share my screen\"',
+          message07: 'No pants on',
+          message08: 'Technical Problems',
+          message09: 'Strange sounds in the background',
+          message10: 'Questionable browser tabs open ;)',
+          message11: 'Someone is late',
+          message12: 'Funny Backgrounds',
+          message13: 'Children disturb',
+          message14: 'Not everyone has the camera on',
+          message15: 'Anyone can read the blasphemy chat when sharing the screen',
+          message16: 'Wrong microphone choosen',
+          message17: 'Someone just leaves',
+          message18: 'Someone walks into the video',
+          message19: 'No reaction although he/she is addressed',
+          message20: 'Poor voice quality',
+          message21: 'Someone blasphemes and forgets to mute',
+          message22: 'No one has the camera on',
+          message23: 'Groupchat instead of 1:1 chat',
+          message24: 'Internet connection is lost',
+          message25: '\"Can you see my screen?\"',
+          message26: 'Someone eats',
+          message27: 'Someone drinks',
+          message28: 'Someone speaks although she/he is on mute',
+          message29: 'Rolling Eyes',
+          message30: 'Meeting is overrun',
+          message31: 'Someone takes part from the car'
+        },
+        de: {
+          languageMenu: 'Sprache',
+          english: 'Englisch',
+          german: 'Deutsch',
+          title: 'Videokonferenz<br>Bingo',
+          playAgainTitle: 'Spiel nochmal',
+          playAgain: 'Willst du noch einmal spielen?',
+          yes: 'Ja',
+          no: 'Nein',
+          message01: '\"Ich glaube du bist stumm\"',
+          message02: 'Gastauftritt einer Katze',
+          message03: '\"Kannst du mich/uns hören\"',
+          message04: 'Jemand vergisst das die Kamera an ist',
+          message05: '1:1 Chat an die falsche Person',
+          message06: '\"Ich möchte meinen Bildschirm teilen\"',
+          message07: 'Keine Hose tragen',
+          message08: 'Technische Probleme',
+          message09: 'Seltsame Geräusche im Hintergrund',
+          message10: 'Fragwürdige Browser Tabs offen ;)',
+          message11: 'Jemand kommt zu spät',
+          message12: 'Lustige Hintergründe',
+          message13: 'Kinder stören',
+          message14: 'Nicht alle haben die Kamera an',
+          message15: 'Jeder kann den \"Lästerchat\" beim Bildschirm teilen lesen',
+          message16: 'Falsches Mikrofon ausgewählt',
+          message17: 'Jemand geht einfach',
+          message18: 'Jemand läuft ins Bild',
+          message19: 'Keine Reaktion obwohl er/sie angesprochen wird',
+          message20: 'Schlechte Sprachqualität',
+          message21: 'Jemand lästert und vergisst die Stummschaltung',
+          message22: 'Keiner hat die Kamera an',
+          message23: 'Gruppenchat statt 1:1 Chat',
+          message24: 'Internet ist weg',
+          message25: '\"Könnt ihr meinen Bildschirm sehen?\"',
+          message26: 'Jemand isst',
+          message27: 'Jemand trinkt',
+          message28: 'Jemand spricht obwohl sie/er auf Mute ist',
+          message29: 'Augenrollen',
+          message30: 'Meeting wird überzogen',
+          message31: 'Jemand nimmt aus dem Auto teil'
+        },
+    };
 
     // Function to update the UI language
     function updateLanguage(language) {
-        if (language === 'en') {
-            $yesBtn = "Yes"
-            $noBtn = "No"
-            $btnTitle = "Play again"
-            $btnText = "Do you want to play again?"
-            header.innerHTML = "Videoconference<br>Bingo"
-            if(document.getElementById('message01') !== null) {
-                document.getElementById('message01').innerHTML = "\"I think, you are mute\""
+            $yesBtn = translations[language].yes
+            $noBtn = translations[language].no
+            $btnTitle = translations[language].playAgainTitle
+            $btnText = translations[language].playAgain
+            header.innerHTML = translations[language].title
+            if(document.getElementById('message1') !== null) {
+                document.getElementById('message1').innerHTML = translations[language].message01
             }
-            if(document.getElementById('message02') !== null) {
-                document.getElementById('message02').innerHTML = "Appearance of a cat"
+            if(document.getElementById('message2') !== null) {
+                document.getElementById('message2').innerHTML = translations[language].message02
             }
-            if(document.getElementById('message03') !== null) {
-                document.getElementById('message03').innerHTML = "\"Can you here me/us\""
+            if(document.getElementById('message3') !== null) {
+                document.getElementById('message3').innerHTML = translations[language].message03
             }
-            if(document.getElementById('message04') !== null) {
-                document.getElementById('message04').innerHTML = "Someone forgets that the camera is on"
+            if(document.getElementById('message4') !== null) {
+                document.getElementById('message4').innerHTML = translations[language].message04
             }
-            if(document.getElementById('message05') !== null) {
-                document.getElementById('message05').innerHTML = "1:1 Chat with the wrong person"
+            if(document.getElementById('message5') !== null) {
+                document.getElementById('message5').innerHTML = translations[language].message05
             }
-            if(document.getElementById('message06') !== null) {
-                document.getElementById('message06').innerHTML = "\"I want to share my screen\""
+            if(document.getElementById('message6') !== null) {
+                document.getElementById('message6').innerHTML = translations[language].message06
             }
-            if(document.getElementById('message07') !== null) {
-                document.getElementById('message07').innerHTML = "No pants on"
+            if(document.getElementById('message7') !== null) {
+                document.getElementById('message7').innerHTML = translations[language].message07
             }
-            if(document.getElementById('message08') !== null) {
-                document.getElementById('message08').innerHTML = "Technical Problems"
+            if(document.getElementById('message8') !== null) {
+                document.getElementById('message8').innerHTML = translations[language].message08
             }
-            if(document.getElementById('message09') !== null) {
-                document.getElementById('message09').innerHTML = "Strange sounds in the background"
+            if(document.getElementById('message9') !== null) {
+                document.getElementById('message9').innerHTML = translations[language].message09
             }
             if(document.getElementById('message10') !== null) {
-                document.getElementById('message10').innerHTML = "Questionable browser tabs open ;)"
+                document.getElementById('message10').innerHTML = translations[language].message10
             }
             if(document.getElementById('message11') !== null) {
-                document.getElementById('message11').innerHTML = "Someone is late"
+                document.getElementById('message11').innerHTML = translations[language].message11
             }
             if(document.getElementById('message12') !== null) {
-                document.getElementById('message12').innerHTML = "Funny Backgrounds"
+                document.getElementById('message12').innerHTML = translations[language].message12
             }
             if(document.getElementById('message13') !== null) {
-                document.getElementById('message13').innerHTML = "Children disturb"
+                document.getElementById('message13').innerHTML = translations[language].message13
             }
             if(document.getElementById('message14') !== null) {
-                document.getElementById('message14').innerHTML = "Not everyone has the camera on"
+                document.getElementById('message14').innerHTML = translations[language].message14
             }
             if(document.getElementById('message15') !== null) {
-                document.getElementById('message15').innerHTML = "Anyone can read the blasphemy chat when sharing the screen"
+                document.getElementById('message15').innerHTML = translations[language].message15
             }
             if(document.getElementById('message16') !== null) {
-                document.getElementById('message16').innerHTML = "Wrong microphone choosen"
+                document.getElementById('message16').innerHTML = translations[language].message16
             }
             if(document.getElementById('message17') !== null) {
-                document.getElementById('message17').innerHTML = "Someone just leaves"
+                document.getElementById('message17').innerHTML = translations[language].message17
             }
             if(document.getElementById('message18') !== null) {
-                document.getElementById('message18').innerHTML = "Someone walks into the video"
+                document.getElementById('message18').innerHTML = translations[language].message18
             }
             if(document.getElementById('message19') !== null) {
-                document.getElementById('message19').innerHTML = "No reaction although he/she is addressed"
+                document.getElementById('message19').innerHTML = translations[language].message19
             }
             if(document.getElementById('message20') !== null) {
-                document.getElementById('message20').innerHTML = "Poor voice quality"
+                document.getElementById('message20').innerHTML = translations[language].message20
             }
             if(document.getElementById('message21') !== null) {
-                document.getElementById('message21').innerHTML = "Someone blasphemes and forgets to mute"
+                document.getElementById('message21').innerHTML = translations[language].message21
             }
             if(document.getElementById('message22') !== null) {
-                document.getElementById('message22').innerHTML = "No one has the camera on"
+                document.getElementById('message22').innerHTML = translations[language].message22
             }
             if(document.getElementById('message23') !== null) {
-                document.getElementById('message23').innerHTML = "Groupchat instead of 1:1 chat"
+                document.getElementById('message23').innerHTML = translations[language].message23
             }
             if(document.getElementById('message24') !== null) {
-                document.getElementById('message24').innerHTML = "Internet connection is lost"
+                document.getElementById('message24').innerHTML = translations[language].message24
             }
             if(document.getElementById('message25') !== null) {
-                document.getElementById('message25').innerHTML = "\"Can you see my screen?\""
+                document.getElementById('message25').innerHTML = translations[language].message25
             }
             if(document.getElementById('message26') !== null) {
-                document.getElementById('message26').innerHTML = "Someone eats"
+                document.getElementById('message26').innerHTML = translations[language].message26
             }
             if(document.getElementById('message27') !== null) {
-                document.getElementById('message27').innerHTML = "Someone drinks"
+                document.getElementById('message27').innerHTML = translations[language].message27
             }
             if(document.getElementById('message28') !== null) {
-                document.getElementById('message28').innerHTML = "Someone speaks although she/he is on mute"
+                document.getElementById('message28').innerHTML = translations[language].message28
             }
             if(document.getElementById('message29') !== null) {
-                document.getElementById('message29').innerHTML = "Rolling Eyes"
+                document.getElementById('message29').innerHTML = translations[language].message29
             }
             if(document.getElementById('message30') !== null) {
-                document.getElementById('message30').innerHTML = "Meeting is overrun"
+                document.getElementById('message30').innerHTML = translations[language].message30
             }
             if(document.getElementById('message31') !== null) {
-                document.getElementById('message31').innerHTML = "Someone takes part from the car"
+                document.getElementById('message31').innerHTML = translations[language].message31
             }
             
-        } else if (language === 'de') {
-            $yesBtn = "Ja"
-            $noBtn = "Nein"
-            $btnTitle = "Spiel nochmal"
-            $btnText = "Willst du noch einmal spielen?"
-            header.innerHTML = "VideoKonferenz<br>Bingo"
-            if(document.getElementById('message01') !== null) {
-                document.getElementById('message01').innerHTML = "\"Ich glaube du bist stumm\""
-            }
-            if(document.getElementById('message02') !== null) {
-                document.getElementById('message02').innerHTML = "Gastauftritt einer Katze"
-            }
-            if(document.getElementById('message03') !== null) {
-                document.getElementById('message03').innerHTML = "\"Kannst du mich/uns hören\""
-            }
-            if(document.getElementById('message04') !== null) {
-                document.getElementById('message04').innerHTML = "Jemand vergisst das die Kamera an ist"
-            }
-            if(document.getElementById('message05') !== null) {
-                document.getElementById('message05').innerHTML = "1:1 Chat an die falsche Person"
-            }
-            if(document.getElementById('message06') !== null) {
-                document.getElementById('message06').innerHTML = "\"Ich möchte meinen Bildschirm teilen\""
-            }
-            if(document.getElementById('message07') !== null) {
-                document.getElementById('message07').innerHTML = "Keine Hose tragen"
-            }
-            if(document.getElementById('message08') !== null) {
-                document.getElementById('message08').innerHTML = "Technische Probleme"
-            }
-            if(document.getElementById('message09') !== null) {
-                document.getElementById('message09').innerHTML = "Seltsame Geräusche im Hintergrund"
-            }
-            if(document.getElementById('message10') !== null) {
-                document.getElementById('message10').innerHTML = "Fragwürdige Browser Tabs offen ;)"
-            }
-            if(document.getElementById('message11') !== null) {
-                document.getElementById('message11').innerHTML = "Jemand kommt zu spät"
-            }
-            if(document.getElementById('message12') !== null) {
-                document.getElementById('message12').innerHTML = "Lustige Hintergründe"
-            }
-            if(document.getElementById('message13') !== null) {
-                document.getElementById('message13').innerHTML = "Kinder stören"
-            }
-            if(document.getElementById('message14') !== null) {
-                document.getElementById('message14').innerHTML = "Nicht alle haben die Kamera an"
-            }
-            if(document.getElementById('message15') !== null) {
-                document.getElementById('message15').innerHTML = "Jeder kann den \"Lästerchat\" beim Bildschirm teilen lesen"
-            }
-            if(document.getElementById('message16') !== null) {
-                document.getElementById('message16').innerHTML = "Falsches Mikrofon ausgewählt"
-            }
-            if(document.getElementById('message17') !== null) {
-                document.getElementById('message17').innerHTML = "Jemand geht einfach"
-            }
-            if(document.getElementById('message18') !== null) {
-                document.getElementById('message18').innerHTML = "Jemand läuft ins Bild"
-            }
-            if(document.getElementById('message19') !== null) {
-                document.getElementById('message19').innerHTML = "Keine Reaktion obwohl er/sie angesprochen wird"
-            }
-            if(document.getElementById('message20') !== null) {
-                document.getElementById('message20').innerHTML = "Schlechte Sprachqualität"
-            }
-            if(document.getElementById('message21') !== null) {
-                document.getElementById('message21').innerHTML = "Jemand lästert und vergisst die Stummschaltung"
-            }
-            if(document.getElementById('message22') !== null) {
-                document.getElementById('message22').innerHTML = "Keiner hat die Kamera an"
-            }
-            if(document.getElementById('message23') !== null) {
-                document.getElementById('message23').innerHTML = "Gruppenchat statt 1:1 Chat"
-            }
-            if(document.getElementById('message24') !== null) {
-                document.getElementById('message24').innerHTML = "Internet ist weg"
-            }
-            if(document.getElementById('message25') !== null) {
-                document.getElementById('message25').innerHTML = "\"Könnt ihr meinen Bildschirm sehen?\""
-            }
-            if(document.getElementById('message26') !== null) {
-                document.getElementById('message26').innerHTML = "Jemand isst"
-            }
-            if(document.getElementById('message27') !== null) {
-                document.getElementById('message27').innerHTML = "Jemand trinkt"
-            }
-            if(document.getElementById('message28') !== null) {
-                document.getElementById('message28').innerHTML = "Jemand spricht obwohl sie/er auf Mute ist"
-            }
-            if(document.getElementById('message29') !== null) {
-                document.getElementById('message29').innerHTML = "Augenrollen"
-            }
-            if(document.getElementById('message30') !== null) {
-                document.getElementById('message30').innerHTML = "Meeting wird überzogen"
-            }
-            if(document.getElementById('message31') !== null) {
-                document.getElementById('message31').innerHTML = "Jemand nimmt aus dem Auto teil"
-            }
-        }
+        
         // Add more languages as needed
     }
 
     function showBanner() {
         banner.classList.add('show');
-        winSound.play(); // Play the sound
+        if($soundOnOff == 'on') {
+            winSound.play(); // Play the sound
+        }
     }
 
     function hideBanner() {
@@ -335,131 +292,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let div = document.createElement("div")
             div.classList.add("cell-format")
-            
-        if(arr[iterator].toString() == "1") {
-                div.setAttribute('id', 'message01');
-                div.textContent = $message01
-            }
-        if(arr[iterator].toString() == "2") {
-                div.setAttribute('id', 'message02');
-                div.textContent = $message02
-            }
-        if(arr[iterator].toString() == "3") {
-            div.setAttribute('id', 'message03');
-                div.textContent = $message03
-            }
-        if(arr[iterator].toString() == "4") {
-            div.setAttribute('id', 'message04');
-                div.textContent = $message04
-            }
-        if(arr[iterator].toString() == "5") {
-            div.setAttribute('id', 'message05');
-                div.textContent = $message05
-            }
-        if(arr[iterator].toString() == "6") {
-            div.setAttribute('id', 'message06');
-                div.textContent = $message06
-            }
-        if(arr[iterator].toString() == "7") {
-            div.setAttribute('id', 'message07');
-                div.textContent = $message07
-            }
-        if(arr[iterator].toString() == "8") {
-            div.setAttribute('id', 'message08');
-                div.textContent = $message08
-            }
-        if(arr[iterator].toString() == "9") {
-            div.setAttribute('id', 'message09');
-                div.textContent = $message09
-            }
-        if(arr[iterator].toString() == "10") {
-            div.setAttribute('id', 'message10');
-                div.textContent = $message10
-            }
-        if(arr[iterator].toString() == "11") {
-            div.setAttribute('id', 'message11');
-                div.textContent = $message11
-            }
-        if(arr[iterator].toString() == "12") {
-            div.setAttribute('id', 'message12');
-                div.textContent = $message12
-            }
-        if(arr[iterator].toString() == "13") {
-            div.setAttribute('id', 'message13');
-                div.textContent = $message13
-            }
-        if(arr[iterator].toString() == "14") {
-            div.setAttribute('id', 'message14');
-                div.textContent = $message14
-            }
-        if(arr[iterator].toString() == "15") {
-            div.setAttribute('id', 'message15');
-                div.textContent = $message15
-            }
-        if(arr[iterator].toString() == "16") {
-            div.setAttribute('id', 'message16');
-                div.textContent = $message16
-            }
-        if(arr[iterator].toString() == "17") {
-            div.setAttribute('id', 'message17');
-                div.textContent = $message17
-            }
-        if(arr[iterator].toString() == "18") {
-            div.setAttribute('id', 'message18');
-                div.textContent = $message18
-            }
-        if(arr[iterator].toString() == "19") {
-            div.setAttribute('id', 'message19');
-                div.textContent = $message19
-            }
-        if(arr[iterator].toString() == "20") {
-            div.setAttribute('id', 'message20');
-                div.textContent = $message20
-            }
-        if(arr[iterator].toString() == "21") {
-            div.setAttribute('id', 'message21');
-                div.textContent = $message21
-            }
-        if(arr[iterator].toString() == "22") {
-            div.setAttribute('id', 'message22');
-                div.textContent = $message22
-            }
-        if(arr[iterator].toString() == "23") {
-            div.setAttribute('id', 'message23');
-                div.textContent = $message23
-            }
-        if(arr[iterator].toString() == "24") {
-            div.setAttribute('id', 'message24');
-                div.textContent = $message24
-            }
-        if(arr[iterator].toString() == "25") {
-            div.setAttribute('id', 'message25');
-                div.textContent = $message25
-        }
-        if(arr[iterator].toString() == "26") {
-            div.setAttribute('id', 'message26');
-                div.textContent = $message26
-        }
-        if(arr[iterator].toString() == "27") {
-            div.setAttribute('id', 'message27');
-                div.textContent = $message27
-        }
-        if(arr[iterator].toString() == "28") {
-            div.setAttribute('id', 'message28');
-                div.textContent = $message28
-        }
-        if(arr[iterator].toString() == "29") {
-            div.setAttribute('id', 'message29');
-                div.textContent = $message29
-        }
-        if(arr[iterator].toString() == "30") {
-            div.setAttribute('id', 'message30');
-                div.textContent = $message30
-        }
-        if(arr[iterator].toString() == "31") {
-            div.setAttribute('id', 'message31');
-                div.textContent = $message31
-        }
+
+            $fieldNumber = arr[iterator].toString();
+            $divid = "message" + $fieldNumber;
+
+            div.setAttribute('id', $divid);
+
             td.appendChild(div)
             tr.appendChild(td)
             iterator++;
@@ -483,7 +321,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Show the banner and then hide it after 3 seconds
                     showBanner();
                     hideBanner();
-                    //location.reload();
                 }
             }
         })

@@ -34,10 +34,31 @@ function saveSettings(settings) {
   //win.webContents.openDevTools();
 
   const settings = readSettings();
-  const savedLanguage = settings.language || 'de'; // Default to 'en' if no preference is saved
+  let savedLanguage = settings.language || 'de'; // Default to 'de' if no preference is saved
+  let savedSound = settings.sound || 'on';
   win.webContents.on('did-finish-load', () => {
     win.webContents.send('language-changed', savedLanguage);
+    win.webContents.send('sound-changed', savedSound);
   });
+
+  const translations = {
+    en: {
+      languageMenu: 'Language',
+      english: 'English',
+      german: 'German',
+      soundMenu: 'Sounds',
+      on: 'Sound On',
+      off: 'Sound Off'
+    },
+    de: {
+      languageMenu: 'Sprache',
+      english: 'Englisch',
+      german: 'Deutsch',
+      soundMenu: 'Geräusche',
+      on: 'Geräusche An',
+      off: 'Geräusche Aus'
+    },
+  };
 
   // Remove the menu
   if (process.platform === 'darwin') {
@@ -47,47 +68,67 @@ function saveSettings(settings) {
         submenu: [{ role: 'about' }, { type: 'separator' }, { role: 'hide' }, { role: 'hideothers' }, { role: 'unhide' }, { type: 'separator' }, { role: 'quit' }]
       },
       {
-        label: '🌎',
+        label: translations[savedLanguage].languageMenu,
         submenu: [
             {
-                label: '🇩🇪 Deutsch',
+                label: translations[savedLanguage].german,
                 click() {
-                    //store.set('language', 'de');
                     win.webContents.send('language-changed', 'de');
-                    saveSettings({ language: 'de' }); // Save the preference
+                    savedLanguage = 'de'
+                    saveSettings({ language: savedLanguage, sound: savedSound}); // Save the preference
                 }
             },
             {
-                label: '🇬🇧 English',
+                label: translations[savedLanguage].english,
                 click() {
-                    //store.set('language', 'en');
                     win.webContents.send('language-changed', 'en');
-                    saveSettings({ language: 'en' }); // Save the preference
+                    savedLanguage = 'en'
+                    saveSettings({ language: savedLanguage, sound: savedSound}); // Save the preference
                 }
             }
             // Add more languages as needed
         ]
-    }
+    },
+    {
+      label: translations[savedLanguage].soundMenu,
+      submenu: [
+          {
+              label: translations[savedLanguage].on,
+              click() {
+                  win.webContents.send('sound-changed', 'on');
+                  savedSound = 'on'
+                  saveSettings({ language: savedLanguage, sound: savedSound }); // Save the preference
+              }
+          },
+          {
+              label: translations[savedLanguage].off,
+              click() {
+                  win.webContents.send('sound-changed', 'off');
+                  savedSound = 'off'
+                  saveSettings({ language: savedLanguage, sound: savedSound }); // Save the preference
+              }
+          }
+          // Add more languages as needed
+      ]
+  }
     ];
 
     Menu.setApplicationMenu(Menu.buildFromTemplate(template));
   } else {
     const template = [
       {
-        label: '🌎',
+        label: translations[savedLanguage].languageMenu,
         submenu: [
             {
-                label: 'Deutsch',
+                label: translations[savedLanguage].german,
                 click() {
-                    //store.set('language', 'de');
                     win.webContents.send('language-changed', 'de');
                     saveSettings({ language: 'de' }); // Save the preference
                 }
             },
             {
-                label: 'English',
+                label: translations[savedLanguage].english,
                 click() {
-                    //store.set('language', 'en');
                     win.webContents.send('language-changed', 'en');
                     saveSettings({ language: 'en' }); // Save the preference
                 }

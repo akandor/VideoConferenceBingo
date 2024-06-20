@@ -135,7 +135,29 @@ function saveSettings(settings) {
             }
             // Add more languages as needed
         ]
-    }
+    },
+    {
+      label: translations[savedLanguage].soundMenu,
+      submenu: [
+          {
+              label: translations[savedLanguage].on,
+              click() {
+                  win.webContents.send('sound-changed', 'on');
+                  savedSound = 'on'
+                  saveSettings({ language: savedLanguage, sound: savedSound }); // Save the preference
+              }
+          },
+          {
+              label: translations[savedLanguage].off,
+              click() {
+                  win.webContents.send('sound-changed', 'off');
+                  savedSound = 'off'
+                  saveSettings({ language: savedLanguage, sound: savedSound }); // Save the preference
+              }
+          }
+          // Add more languages as needed
+      ]
+  }
     ];
 
     Menu.setApplicationMenu(Menu.buildFromTemplate(template));
